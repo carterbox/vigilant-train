@@ -93,6 +93,7 @@ def main(folder, size, probe_width, shift, threshold, detector, show, noise,
         pamp = tike.constants.sum_square_norm(weights, flux)
         probe = pamp * np.exp(1j * weights * 0.2)
     elif probe_shape == 'gaussian-random':
+        np.random.seed(0)
         weights = tike.ptycho.gaussian(pw)
         pamp = tike.constants.sum_square_norm(weights, flux)
         probe = pamp * np.exp(1j * weights * np.pi * 0.5 *
@@ -123,6 +124,7 @@ def main(folder, size, probe_width, shift, threshold, detector, show, noise,
     )
     # data = bad_probe(data, threshold)
     if noise:
+        np.random.seed(0)
         data = np.random.poisson(data)
     else:
         data[data < threshold] = 0
