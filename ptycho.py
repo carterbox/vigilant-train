@@ -88,7 +88,8 @@ def main(folder, size, probe_width, shift, threshold, detector, show, noise,
         pamp = tike.constants.sum_square_norm(weights, flux)
         probe = pamp * np.exp(1j * weights * 0.2)
     elif probe_shape == 'mura':
-        weights = xdesign.mura_2d(pw)
+        weights = xdesign.mura_2d(pw).astype(np.float32)
+        weights[weights == 0] = 0.2  # mask is not completely blocking
         pamp = tike.constants.sum_square_norm(weights, flux)
         probe = pamp * np.exp(1j * weights * 0.2)
     elif probe_shape == 'gaussian-random':
@@ -107,7 +108,7 @@ def main(folder, size, probe_width, shift, threshold, detector, show, noise,
     # probe = bad_probe(probe, threshold)
 
     if show:
-        tike.plot_complex(probe)
+        tike.plot_phase(probe)
 
     # ## Simulate data acquisition
 
